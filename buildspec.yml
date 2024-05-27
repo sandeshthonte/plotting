@@ -1,0 +1,38 @@
+version: 0.2
+
+phases:
+	install:
+		runtime-versions:
+			java: corretto17  # Use Amazon Corretto 17 for Java
+		commands:
+			- echo Installing Gradle...
+			- wget https://services.gradle.org/distributions/gradle-7.6-bin.zip
+			- unzip -d /opt/gradle gradle-7.6-bin.zip
+			- export PATH=$PATH:/opt/gradle/gradle-7.6/bin
+			- gradle -v
+
+	pre_build:
+		commands:
+			- echo Cleaning project...
+			- ./gradlew clean
+
+	build:
+		commands:
+			- echo Building project...
+			- ./gradlew build
+
+	post_build:
+		commands:
+			- echo Build completed successfully
+			- echo Running tests...
+			- ./gradlew test
+
+artifacts:
+	files:
+		- build/libs/*.jar
+	discard-paths: yes
+
+cache:
+	paths:
+		- ~/.gradle/caches/
+		- ~/.gradle/wrapper/
