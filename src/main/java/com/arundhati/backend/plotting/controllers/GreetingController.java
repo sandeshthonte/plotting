@@ -1,0 +1,19 @@
+package com.arundhati.backend.plotting.controllers;
+
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/greeting")
+public class GreetingController {
+
+//    @GetMapping
+    public String greet(Authentication authentication) {
+        return "Hello, %s. You have next permissions: %s"
+                .formatted(authentication.getName(), authentication.getAuthorities());
+    }
+
+}
